@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Plugin>
+  <Name>VOZ_CRON</Name>
+  <PluginURL>https://raw.githubusercontent.com/VozDeOuro/voz.cron/master/plugins/voz.cron.plg</PluginURL>
+  <PluginAuthor>VozDeOuro</PluginAuthor>
+  <Support>https://github.com/VozDeOuro/voz.cron/issues</Support>
+  <Project>https://github.com/VozDeOuro/voz.cron</Project>
+  <Icon>https://raw.githubusercontent.com/VozDeOuro/voz.cron/master/source/voz.cron/usr/local/emhttp/plugins/voz.cron/images/voz.cron.png</Icon>
+  <Category>Tools:Utilities</Category>
+  <MinVer>7.3.3</MinVer>
+  <Overview>Run and schedule your own scripts, with run history, live logs, folders, exit-code rules and failure notifications. A fork of User Scripts by Squid; on first install it imports your User Scripts scripts, schedules and settings and retires User Scripts, leaving its folder unchanged for rollback.</Overview>
+</Plugin>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CommunityApplications>
+  <Profile>VOZ_CRON by VozDeOuro: a script runner and scheduler for Unraid, forked from User Scripts by Squid. Support is in the Unraid forum thread linked on the app, or on GitHub issues.</Profile>
+  <Icon>https://raw.githubusercontent.com/VozDeOuro/voz.cron/master/source/voz.cron/usr/local/emhttp/plugins/voz.cron/images/voz.cron.png</Icon>
+  <WebPage>https://github.com/VozDeOuro/voz.cron</WebPage>
+</CommunityApplications>
