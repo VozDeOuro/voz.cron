@@ -8,5 +8,5 @@
   <Icon>https://raw.githubusercontent.com/VozDeOuro/voz.cron/master/source/voz.cron/usr/local/emhttp/plugins/voz.cron/images/voz.cron.png</Icon>
   <Category>Tools:Utilities</Category>
   <MinVer>7.3.3</MinVer>
-  <Overview>Run and schedule your own scripts, with run history, live logs, folders, exit-code rules and failure notifications. A fork of User Scripts by Squid; on first install it imports your User Scripts scripts, schedules and settings and retires User Scripts, leaving its folder unchanged for rollback.</Overview>
+  <Overview>Run and schedule your own scripts from the Unraid web UI. See every run at a glance with history, sparklines and live logs; organise scripts into folders; get notified on failures, repeated failures and recovery; set per-script exit-code rules, timeouts and overlap control. Custom cron schedules run exactly as Unraid reads them. Moving from User Scripts? Your scripts, schedules and settings are imported automatically on first install.</Overview>
 </Plugin>
