@@ -1,0 +1,123 @@
+<?xml version='1.0' standalone='yes'?>
+<!DOCTYPE PLUGIN [
+<!ENTITY name      "voz.cron">
+<!ENTITY author    "Lucas Carvalho (VozDeOuro), based on User Scripts by Andrew Zawadzki (Squid)">
+<!ENTITY version   "2026.10.22">
+<!ENTITY md5       "bbc73cc571dfe02c6bb4930ab53037c2">
+<!ENTITY launch    "Settings/VozCron">
+<!ENTITY github    "VozDeOuro/voz.cron">
+<!ENTITY pluginURL "https://raw.githubusercontent.com/&github;/master/plugins/&name;.plg">
+]>
+
+<PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" min="7.3.3" support="https://github.com/&github;/issues" icon="file-text-o">
+
+<CHANGES>
+###2026.10.22
+- First public release from github.com/VozDeOuro/voz.cron, under the MIT licence.
+- "Send test notification" now points to Unraid's notification agents in general.
+
+###2026.10.13
+- Renamed to VOZ_CRON (plugin id voz.cron), published separately from User Scripts. Settings → VOZ_CRON.
+- First install imports scripts, schedules, folders, settings and history from /boot/config/plugins/user.scripts (that folder is left unchanged), then retires the User Scripts plugin so nothing runs twice. Scripts it already started keep running.
+- Credits: by Lucas Carvalho (VozDeOuro), based on User Scripts by Andrew Zawadzki (Squid).
+
+###2026.10.12
+- Script and folder names can be selected and copied again: rows now move only by their ⠿ grip.
+- Cleaner search box and filter buttons.
+- Fixed: installing over an existing version stopped at the old-package cleanup step.
+
+###2026.10.11
+- Schedules follow Unraid's crond exactly; expressions it would misread are refused with the reason.
+- Exit-code rules per script (ok / warn / ignore / fail) and a "Send test notification" button.
+- Folders with drag and drop, Move to… and Alt+arrow reordering.
+- Search, filters, compact rows, keyboard shortcuts, run sparkline, server-timezone times, aligned columns.
+- Settings move from schedule.json to config.json on install (schedule.json is left untouched for rollback).
+- Built for Unraid 7.3.3 and newer only; upstream's old entry points are removed.
+
+###2026.10.10
+- VozDeOuro fork. Built for Unraid 7.3.3 and newer.
+- New responsive UI: works on Unraid 7.3, mobile, all themes. Search, filters, live log tail, run history.
+- Scheduling fixes: custom cron lines carry their own schedule (#19, #20), no silent skips (#17), day/month names (#12, #13).
+- Abort and timeout stop the whole process group, including child processes (#18).
+- Per-script notifications with dedupe, reminders and recovery notices (#21, #23).
+- Overlap control per script: skip, queue or parallel, with a stuck alert.
+- History kept in RAM and synced to flash hourly and on status changes, to spare the USB drive.
+</CHANGES>
+
+<!-- remove packages from older versions (upstream or ours) -->
+<FILE Run="/bin/bash">
+<INLINE>
+for f in /boot/config/plugins/&name;/&name;*.txz; do
+  # use an if: a bare test chain that ends false on the last file makes this script exit 1 and aborts the install
+  if [ -e "$f" ] &amp;&amp; [ "$(basename "$f")" != "&name;-&version;-x86_64-1.txz" ]; then rm -f "$f"; fi
+done
+</INLINE>
+</FILE>
+
+<!-- the package -->
+<FILE Name="/boot/config/plugins/&name;/&name;-&version;-x86_64-1.txz" Run="upgradepkg --install-new">
+<URL>https://github.com/&github;/releases/download/v&version;/&name;-&version;-x86_64-1.txz</URL>
+<MD5>&md5;</MD5>
+</FILE>
+
+<!-- post-install -->
+<FILE Run="/bin/bash">
+<INLINE>
+D=/usr/local/emhttp/plugins/&name;
+F=/boot/config/plugins/&name;
+mkdir -p $F/scripts /tmp/&name;
+# Moving from User Scripts: the first install copies /boot/config/plugins/user.scripts (scripts, config,
+# layout, settings, history) into $F, reading the old folder only. When that worked, handover.sh retires
+# the old plugin without running its remove script (which deletes /tmp/user.scripts) and without stopping
+# anything it started, so no script is scheduled twice and the old folder stays as a rollback copy.
+imported=0
+if $D/run.php --import; then
+  imported=1
+else
+  echo "WARNING: import from User Scripts failed (see syslog); User Scripts was left installed and unchanged"
+fi
+# first install only: seed the bundled sample scripts when the flash scripts dir is still empty
+if [ $imported = 1 ] &amp;&amp; [ -z "$(ls -A $F/scripts 2>/dev/null)" ] &amp;&amp; [ -d $D/scripts ]; then
+  cp -R $D/scripts/. $F/scripts/
+fi
+rm -rf $D/scripts
+if [ $imported = 1 ]; then
+  # creates config.json when nothing was imported (no-op once it exists)
+  $D/run.php --migrate || echo "WARNING: schedule import failed, see syslog"
+  bash $D/handover.sh
+fi
+# the cron wrappers call run.php --frequency
+for f in hourly daily weekly monthly; do
+  cp $D/cron/&name;.start.$f.sh /etc/cron.$f/
+  chmod 755 /etc/cron.$f/&name;.start.$f.sh
+done
+# seed RAM history from flash and regenerate customSchedule.cron from config.json
+$D/run.php --seed
+# on a first install the plugin manager lists this plugin in /var/log/plugins only after this script ends,
+# so the update_cron that --seed ran skipped our cron file (and handover already dropped the old one):
+# run it again once we are listed, or no custom schedule runs until the next reboot or schedule save
+if [ ! -e /var/log/plugins/&name;.plg ]; then
+  echo /usr/local/sbin/update_cron | at -M now + 1 minute 2>/dev/null || echo "WARNING: open Settings > VOZ_CRON and press Apply to load the schedules"
+fi
+echo ""
+echo "----------------------------------------------------"
+echo " VOZ_CRON &version; installed"
+echo " by Lucas Carvalho (VozDeOuro)"
+echo " Based on User Scripts by Andrew Zawadzki (Squid)"
+echo "----------------------------------------------------"
+echo ""
+</INLINE>
+</FILE>
+
+<!-- remove -->
+<FILE Run="/bin/bash" Method="remove">
+<INLINE>
+/usr/local/emhttp/plugins/&name;/run.php --sync-history
+for f in hourly daily weekly monthly; do rm -f /etc/cron.$f/&name;.start.$f.sh; done
+rm -f /boot/config/plugins/&name;/customSchedule.cron
+/usr/local/sbin/update_cron
+removepkg &name;-&version;-x86_64-1
+rm -rf /tmp/&name;
+</INLINE>
+</FILE>
+</PLUGIN>

@@ -1,0 +1,12 @@
+:root {
+  --background-color: #1c1b1b; --text-color: #f2f2f2; --alt-text-color: #a7a7a7; --border-color: #3a3a3a;
+  --dashboard-background-color: #212121; --hover-table-row-background-color: #2b2b2b; --input-bg-color: #262626;
+  --brand-orange: #f15a2c; --brand-red: #e22828; --small-shadow: 0 1px 3px rgba(0, 0, 0, .6);
+}
+html { font-size: 62.5%; }
+body { margin: 0; background: var(--background-color); color: var(--text-color); font-family: system-ui, sans-serif; font-size: 1.3rem; }
+#header { height: 6rem; display: flex; align-items: center; padding: 0 2rem; background: #000; color: #fff; }
+#displaybox { padding: 1rem 2rem 6rem; }
+#footer { position: fixed; left: 0; right: 0; bottom: 0; z-index: 10000; height: 3rem; background: #000; color: #fff; }
+button { min-width: 86px; margin: 10px 12px 10px 0; padding: 7px 14px; font: inherit; color: var(--text-color); background: var(--input-bg-color); border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer; }
+input[type=text], input[type=search], input[type=number], select, textarea { margin: 0 0 10px; padding: 6px 8px; font: inherit; color: var(--text-color); background: var(--input-bg-color); border: 1px solid var(--border-color); border-radius: 4px; }

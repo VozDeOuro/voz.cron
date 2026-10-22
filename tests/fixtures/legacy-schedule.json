@@ -1,0 +1,86 @@
+{
+    "/boot/config/plugins/user.scripts/scripts/nightly-backup/script": {
+        "script": "/boot/config/plugins/user.scripts/scripts/nightly-backup/script",
+        "frequency": "custom",
+        "id": "schedulenightly-backup",
+        "custom": "15 2 * * 6"
+    },
+    "/boot/config/plugins/user.scripts/scripts/old-backup/script": {
+        "script": "/boot/config/plugins/user.scripts/scripts/old-backup/script",
+        "frequency": "disabled",
+        "id": "scheduleold-backup",
+        "custom": "15 2 * * 6"
+    },
+    "/boot/config/plugins/user.scripts/scripts/rotate-logs/script": {
+        "script": "/boot/config/plugins/user.scripts/scripts/rotate-logs/script",
+        "frequency": "daily",
+        "id": "schedulerotate-logs",
+        "custom": ""
+    },
+    "/boot/config/plugins/user.scripts/scripts/prune images/script": {
+        "script": "/boot/config/plugins/user.scripts/scripts/prune images/script",
+        "frequency": "weekly",
+        "id": "schedulepruneimages",
+        "custom": ""
+    },
+    "/boot/config/plugins/user.scripts/scripts/heartbeat/script": {
+        "script": "/boot/config/plugins/user.scripts/scripts/heartbeat/script",
+        "frequency": "custom",
+        "id": "scheduleheartbeat",
+        "custom": "*/10 * * * *"
+    },
+    "/boot/config/plugins/user.scripts/scripts/mount-shares/script": {
+        "script": "/boot/config/plugins/user.scripts/scripts/mount-shares/script",
+        "frequency": "boot",
+        "id": "schedulemount-shares",
+        "custom": ""
+    },
+    "/boot/config/plugins/user.scripts/scripts/warm.cache/script": {
+        "script": "/boot/config/plugins/user.scripts/scripts/warm.cache/script",
+        "frequency": "start",
+        "id": "schedulewarm-cache",
+        "custom": ""
+    },
+    "/boot/config/plugins/user.scripts/scripts/report-disk/script": {
+        "script": "/boot/config/plugins/user.scripts/scripts/report-disk/script",
+        "frequency": "disabled",
+        "id": "schedulereport-disk",
+        "custom": "*/7 * * * *"
+    },
+    "/boot/config/plugins/user.scripts/scripts/hello world/script": {
+        "script": "/boot/config/plugins/user.scripts/scripts/hello world/script",
+        "frequency": "disabled",
+        "id": "schedulehelloworld",
+        "custom": ""
+    },
+    "/boot/config/plugins/user.scripts/scripts/sync-photos/script": {
+        "script": "/boot/config/plugins/user.scripts/scripts/sync-photos/script",
+        "frequency": "custom",
+        "id": "schedulesync-photos",
+        "custom": "30 */6 * * *"
+    },
+    "/boot/config/plugins/user.scripts/scripts/ping-hosts/script": {
+        "script": "/boot/config/plugins/user.scripts/scripts/ping-hosts/script",
+        "frequency": "custom",
+        "id": "scheduleping-hosts",
+        "custom": "* * * * *"
+    },
+    "/boot/config/plugins/user.scripts/scripts/refresh-ddns/script": {
+        "script": "/boot/config/plugins/user.scripts/scripts/refresh-ddns/script",
+        "frequency": "custom",
+        "id": "schedulerefresh-ddns",
+        "custom": "*/5 * * * *"
+    },
+    "/boot/config/plugins/user.scripts/scripts/monthly-report/script": {
+        "script": "/boot/config/plugins/user.scripts/scripts/monthly-report/script",
+        "frequency": "monthly",
+        "id": "schedulemonthly-report",
+        "custom": ""
+    },
+    "/boot/config/plugins/user.scripts/scripts/stop-vms/script": {
+        "script": "/boot/config/plugins/user.scripts/scripts/stop-vms/script",
+        "frequency": "stop",
+        "id": "schedulestop-vms",
+        "custom": ""
+    }
+}

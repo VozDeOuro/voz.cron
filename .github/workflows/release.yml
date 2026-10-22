@@ -1,0 +1,17 @@
+name: release-check
+on:
+  release: { types: [published] }
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: master }
+      - name: asset md5 matches the .plg
+        env: { GH_TOKEN: '${{ github.token }}' }
+        run: |
+          v=$(grep -oP 'ENTITY version +"\K[^"]+' plugins/voz.cron.plg)
+          want=$(grep -oP 'ENTITY md5 +"\K[^"]+' plugins/voz.cron.plg)
+          gh release download "v$v" -p "*.txz" -D dl
+          got=$(md5sum dl/*.txz | cut -d' ' -f1)
+          test "$want" = "$got" || { echo "md5 mismatch: plg=$want asset=$got"; exit 1; }

@@ -1,0 +1,6 @@
+{
+  "name": "vozdeouro/voz.cron",
+  "description": "VOZ_CRON: script scheduler plugin for Unraid, based on User Scripts by Andrew Zawadzki (Squid)",
+  "require-dev": { "phpunit/phpunit": "^11.5" },
+  "config": { "platform": { "php": "8.4.0" } }
+}

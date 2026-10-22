@@ -1,0 +1,21 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: { php: ['8.4'] }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with: { php-version: '${{ matrix.php }}', tools: composer }
+      - run: composer install -q
+      - run: sudo vendor/bin/phpunit   # the plugin always runs as root (cwd /root, setsid, kill)
+      - run: sudo bash tests/runner.sh
+      - run: for f in tests/js/*.test.mjs; do node "$f"; done
+      - run: for f in source/voz.cron/usr/local/emhttp/plugins/voz.cron/cron/*.sh source/voz.cron/usr/local/emhttp/plugins/voz.cron/event/* source/voz.cron/usr/local/emhttp/plugins/voz.cron/handover.sh; do bash -n "$f"; done
+      - run: sudo apt-get -qq update && sudo apt-get -qq install -y libxml2-utils
+      - run: xmllint --noout --noent plugins/voz.cron.plg
+      - run: bash tests/release-notes.sh
+      - run: bash tests/plg-cleanup.sh
+      - run: bash tests/handover.sh

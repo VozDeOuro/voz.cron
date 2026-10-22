@@ -1,5 +1,2 @@
 #!/bin/bash
-cd source/user.scripts
-chmod 0755 -R .
-./pkg_build.sh
-
+exec "$(dirname "$0")/source/voz.cron/pkg_build.sh" "$@"

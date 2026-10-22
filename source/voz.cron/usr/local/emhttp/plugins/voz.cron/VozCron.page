@@ -1,0 +1,51 @@
+Menu="Utilities"
+Icon="file-text-o"
+Title="VOZ_CRON"
+Tag="file-text-o"
+---
+<?php
+/* VOZ_CRON by Lucas Carvalho (VozDeOuro), 2026. Based on User Scripts, Copyright 2016-2024 Andrew Zawadzki (Squid). */
+require_once '/usr/local/emhttp/plugins/voz.cron/lib/bootstrap.php';
+@mkdir(Paths::scripts(), 0777, true);
+?>
+<link rel="stylesheet" href="<?autov('/plugins/voz.cron/ui/app.css')?>">
+<div id="us-app" class="us" data-csrf="<?=htmlspecialchars($var['csrf_token'] ?? '')?>" data-theme="<?=htmlspecialchars($display['theme'] ?? 'white')?>" data-ace="<?autov('/plugins/voz.cron/javascript/ace/ace.js')?>">
+  <div class="us-toolbar">
+    <label class="us-search-wrap">
+      <svg class="us-search-icon" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5 14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <input type="search" id="us-search" class="us-search" placeholder="Search scripts" aria-label="Search scripts" autocomplete="off" spellcheck="false">
+      <kbd class="us-search-key" aria-hidden="true">/</kbd>
+    </label>
+    <div class="us-filters" role="group" aria-label="Filter">
+      <button type="button" class="us-chip" data-filter="all" aria-pressed="true">All</button>
+      <button type="button" class="us-chip" data-filter="scheduled" aria-pressed="false">Scheduled</button>
+      <button type="button" class="us-chip" data-filter="running" aria-pressed="false">Running</button>
+      <button type="button" class="us-chip" data-filter="failing" aria-pressed="false">Failing</button>
+    </div>
+    <span class="us-spacer"></span>
+    <button type="button" id="us-newfolder">New folder</button>
+    <button type="button" id="us-density" aria-pressed="false" title="Compact rows">Compact</button>
+    <button type="button" id="us-settings">Settings</button>
+    <button type="button" id="us-help" aria-label="Keyboard shortcuts" title="Keyboard shortcuts (?)">?</button>
+    <button type="button" id="us-add">Add script</button>
+    <button type="button" id="us-apply" disabled>Apply</button>
+  </div>
+  <div id="us-list" class="us-list" role="list" aria-label="Scripts"></div>
+  <p id="us-empty" class="us-empty" hidden>No scripts match. <button type="button" id="us-clear-filters">Clear search and filters</button></p>
+  <div id="us-drawer" class="us-drawer" role="dialog" aria-modal="true" aria-labelledby="us-drawer-title" hidden>
+    <div class="us-drawer-panel">
+      <header class="us-drawer-head"><h2 id="us-drawer-title"></h2><button type="button" class="us-icon" id="us-drawer-close" aria-label="Close">✕</button></header>
+      <div id="us-drawer-body" class="us-drawer-body"></div>
+    </div>
+  </div>
+  <div id="us-toast" class="us-toast" role="status" aria-live="polite" hidden></div>
+  <p class="us-credits">VOZ_CRON by <a href="https://github.com/VozDeOuro" target="_blank" rel="noopener">Lucas Carvalho (VozDeOuro)</a>.
+    Based on <a href="https://github.com/Squidly271/user.scripts" target="_blank" rel="noopener">User Scripts</a> by Andrew Zawadzki (Squid).</p>
+  <!-- Deliberately not using Unraid's internal Vue web components (dynamix.my.servers/unraid-components):
+       hashed bundle names change every OS release and there is no public plugin API. -->
+</div>
+<script src="<?autov('/plugins/voz.cron/ui/fmt.js')?>"></script>
+<script src="<?autov('/plugins/voz.cron/ui/layout-ops.js')?>"></script>
+<script src="<?autov('/plugins/voz.cron/ui/exit-codes.js')?>"></script>
+<script src="<?autov('/plugins/voz.cron/ui/header-vars.js')?>"></script>
+<script src="<?autov('/plugins/voz.cron/ui/app.js')?>"></script>

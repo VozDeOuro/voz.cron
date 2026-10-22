@@ -1,0 +1,8 @@
+# Generated cron schedule for user.scripts
+15 2 * * 6 /usr/local/emhttp/plugins/user.scripts/startCustom.php /boot/config/plugins/user.scripts/scripts/nightly-backup/script > /dev/null 2>&1
+*/10 * * * * /usr/local/emhttp/plugins/user.scripts/startCustom.php /boot/config/plugins/user.scripts/scripts/heartbeat/script > /dev/null 2>&1
+30 */6 * * * /usr/local/emhttp/plugins/user.scripts/startCustom.php /boot/config/plugins/user.scripts/scripts/sync-photos/script > /dev/null 2>&1
+
+* * * * * /usr/local/emhttp/plugins/user.scripts/startCustom.php /boot/config/plugins/user.scripts/scripts/ping-hosts/script > /dev/null 2>&1
+*/5 * * * * /usr/local/emhttp/plugins/user.scripts/startCustom.php /boot/config/plugins/user.scripts/scripts/refresh-ddns/script > /dev/null 2>&1
+* * * * * * /usr/local/emhttp/plugins/user.scripts/startCustom.php /boot/config/plugins/user.scripts/scripts/broken19/script > /dev/null 2>&1

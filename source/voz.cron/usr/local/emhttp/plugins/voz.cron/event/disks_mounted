@@ -1,0 +1,8 @@
+#!/bin/bash
+/usr/local/emhttp/plugins/voz.cron/run.php --seed
+/usr/local/emhttp/plugins/voz.cron/run.php --frequency start
+if [ ! -e /tmp/voz.cron/booted ]; then
+  mkdir -p /tmp/voz.cron
+  echo booted > /tmp/voz.cron/booted
+  /usr/local/emhttp/plugins/voz.cron/run.php --frequency boot
+fi

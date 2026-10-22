@@ -1,0 +1,12 @@
+:root {
+  --background-color: #f2f2f2; --text-color: #1c1b1b; --alt-text-color: #606e7f; --border-color: #d4d4d4;
+  --dashboard-background-color: #ffffff; --hover-table-row-background-color: #f4f4f4; --input-bg-color: #ffffff;
+  --brand-orange: #f15a2c; --brand-red: #e22828; --small-shadow: 0 1px 3px rgba(0, 0, 0, .12);
+}
+html { font-size: 62.5%; }
+body { margin: 0; background: var(--background-color); color: var(--text-color); font-family: system-ui, sans-serif; font-size: 1.3rem; }
+#header { height: 6rem; display: flex; align-items: center; padding: 0 2rem; background: #1c1b1b; color: #fff; }
+#displaybox { padding: 1rem 2rem 6rem; }
+#footer { position: fixed; left: 0; right: 0; bottom: 0; z-index: 10000; height: 3rem; background: #1c1b1b; color: #fff; }
+button { min-width: 86px; margin: 10px 12px 10px 0; padding: 7px 14px; font: inherit; color: var(--text-color); background: var(--input-bg-color); border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer; }
+input[type=text], input[type=search], input[type=number], select, textarea { margin: 0 0 10px; padding: 6px 8px; font: inherit; color: var(--text-color); background: var(--input-bg-color); border: 1px solid var(--border-color); border-radius: 4px; }

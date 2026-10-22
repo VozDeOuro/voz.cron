@@ -1,0 +1,21 @@
+#!/bin/bash
+# bin/release [suffix] : builds today's package, stamps version+md5 into the .plg, commits, tags, pushes.
+# The .txz built here is the one uploaded; CI must never rebuild it (a rebuild changes the md5).
+set -euo pipefail
+cd "$(dirname "$0")/.."
+v=$(date +%Y.%m.%d)${1:-}
+[ -z "$(git status --porcelain)" ] || { echo "working tree is not clean; commit or stash first" >&2; exit 1; }
+grep -qxF "###$v" plugins/voz.cron.plg || { echo "add a ###$v section to <CHANGES> first"; exit 1; }
+md5=$(./pkg_build.sh "$v")
+sed -i -E "s#(ENTITY version +\")[^\"]+#\1$v#; s#(ENTITY md5 +\")[^\"]+#\1$md5#" plugins/voz.cron.plg
+git add plugins/voz.cron.plg
+git commit -m "release $v"
+git tag "v$v"
+sha=$(git rev-parse HEAD)
+# order matters: the .plg on master points at the release asset, so master is pushed only after the asset exists
+git push origin "v$v"
+if ! gh release create "v$v" "archive/voz.cron-$v-x86_64-1.txz" --title "$v" --target "$sha" --notes "$(bin/release-notes "$v")"; then
+  echo "release creation failed; master NOT pushed. Retry: gh release create v$v archive/voz.cron-$v-x86_64-1.txz --title $v --target $sha --notes \"\$(bin/release-notes $v)\" && git push origin master" >&2
+  exit 1
+fi
+git push origin master

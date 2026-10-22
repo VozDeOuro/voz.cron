@@ -1,0 +1,9 @@
+#!/bin/bash
+# bin/release-notes <version> [plg] : prints the bullet lines of the "###<version>" section of <CHANGES>.
+v=${1:?usage: release-notes <version> [plg]}
+plg=${2:-"$(dirname "$0")/../plugins/voz.cron.plg"}
+awk -v h="###$v" '
+  found && (/^###/ || /^<\/CHANGES>/) { exit }
+  found { print }
+  $0 == h { found = 1 }
+' "$plg" | sed -e :a -e '/^\n*$/{$d;N;ba' -e '}'

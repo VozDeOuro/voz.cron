@@ -1,0 +1,13 @@
+VOZ_CRON (Unraid plugin id: voz.cron)
+Copyright 2026 Lucas Carvalho (VozDeOuro) - https://github.com/VozDeOuro
+https://github.com/VozDeOuro/voz.cron
+
+This project is based on User Scripts by Andrew Zawadzki (Squid)
+- https://github.com/Squidly271/user.scripts
+User Scripts, Copyright 2016-2024 Andrew Zawadzki.
+
+VOZ_CRON's own code is released under the MIT licence (see LICENSE). The User Scripts repository
+does not include a licence file; its portions remain Copyright Andrew Zawadzki.
+
+Bundled third-party code:
+- Ace editor (javascript/ace/), Copyright Ajax.org B.V., BSD 3-Clause licence.

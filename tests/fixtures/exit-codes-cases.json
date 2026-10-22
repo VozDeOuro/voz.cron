@@ -1,0 +1,24 @@
+{
+  "valid": [
+    { "in": "", "text": "", "probe": [[0, "ok"], [1, "fail"], [255, "fail"], [-1, "fail"]] },
+    { "in": "0=ok 1=warn *=fail", "text": "0=ok 1=warn *=fail", "probe": [[0, "ok"], [1, "warn"], [2, "fail"]] },
+    { "in": "0,2=ok 3-5=ignore 1=warn", "text": "0,2=ok 3-5=ignore 1=warn", "probe": [[2, "ok"], [4, "ignore"], [1, "warn"], [6, "fail"]] },
+    { "in": "  1=warn\t\t0=ok  ", "text": "1=warn 0=ok", "probe": [[0, "ok"], [1, "warn"], [9, "fail"]] },
+    { "in": "*=ok", "text": "*=ok", "probe": [[200, "ok"], [-1, "fail"], [256, "fail"]] },
+    { "in": "1=warn 1=fail", "text": "1=warn 1=fail", "probe": [[1, "warn"]] },
+    { "in": "0=ok 137=ignore *=fail", "text": "0=ok 137=ignore *=fail", "probe": [[137, "ignore"], [143, "fail"]] },
+    { "in": "007=warn", "text": "007=warn", "probe": [[7, "warn"], [0, "fail"]] }
+  ],
+  "invalid": [
+    { "in": "1=maybe", "has": "\"maybe\"" },
+    { "in": "256=ok", "has": "\"256\"" },
+    { "in": "5-3=ok", "has": "\"5-3\"" },
+    { "in": "*=ok *=fail", "has": "\"*\" used twice" },
+    { "in": "1", "has": "\"1\"" },
+    { "in": "a=ok", "has": "\"a\"" },
+    { "in": "1-=ok", "has": "\"1-\"" },
+    { "in": "1,=ok", "has": "bad code" },
+    { "in": "=ok", "has": "\"=ok\"" },
+    { "in": "1=OK", "has": "\"1=OK\"" }
+  ]
+}

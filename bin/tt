@@ -1,0 +1,26 @@
+#!/bin/bash
+# Runs the test suites on Tower (no local docker). Usage:
+#   bin/tt unit [8.4] [phpunit args...]   PHPUnit in php:8.4-cli
+#   bin/tt runner [8.4]                    tests/runner.sh integration test
+#   bin/tt all                             PHPUnit + runner + tests/handover.sh on Tower, then tests/js/*.test.mjs locally with node
+#   bin/tt ui [playwright args...]         Playwright specs against the UI harness (tests/ui/run.sh)
+# Syncs the working tree (not .git/vendor/node_modules) to $TT_HOST:/tmp/us-dev first (default host: tower). Never touches the live plugin.
+set -euo pipefail
+REPO=$(cd "$(dirname "$0")/.." && pwd)
+host=${TT_HOST:-tower}
+mode=${1:-unit}; [ $# -gt 0 ] && shift
+[[ "${1:-}" =~ ^8\.[0-9]$ ]] && shift   # a PHP version argument is accepted and ignored: only 8.4 is supported
+rsync -a --delete --exclude .git --exclude vendor --exclude .phpunit.cache --exclude node_modules "$REPO"/ "$host":/tmp/us-dev/
+q=''; [ $# -gt 0 ] && q=$(printf '%q ' "$@")   # printf with no arguments would still print ''
+php_run='docker run --rm -v /tmp/us-dev:/app -w /app php:8.4-cli'
+runner="$php_run bash -c 'apt-get -qq update >/dev/null && apt-get -qq install -y procps >/dev/null 2>&1; bash tests/runner.sh'"
+prep='cd /tmp/us-dev && { [ -d vendor ] || docker run --rm -v /tmp/us-dev:/app -w /app composer:2 install -q --no-progress; }'
+case $mode in
+  unit) ssh "$host" "$prep && $php_run vendor/bin/phpunit $q" ;;
+  runner) ssh "$host" "$prep && $runner" ;;
+  all)
+    ssh "$host" "$prep && $php_run vendor/bin/phpunit && $runner && $php_run bash tests/handover.sh"
+    for f in "$REPO"/tests/js/*.test.mjs; do node "$f"; done ;;
+  ui) ssh "$host" "cd /tmp/us-dev && bash tests/ui/run.sh $q" ;;
+  *) echo "usage: bin/tt unit|runner|all|ui [args...]" >&2; exit 2 ;;
+esac
