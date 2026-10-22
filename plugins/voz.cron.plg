@@ -3,7 +3,7 @@
 <!ENTITY name      "voz.cron">
 <!ENTITY author    "Lucas Carvalho (VozDeOuro), based on User Scripts by Andrew Zawadzki (Squid)">
 <!ENTITY version   "2026.10.22">
-<!ENTITY md5       "bbc73cc571dfe02c6bb4930ab53037c2">
+<!ENTITY md5       "1eb6aedec2be799ac669efa4eee232ab">
 <!ENTITY launch    "Settings/VozCron">
 <!ENTITY github    "VozDeOuro/voz.cron">
 <!ENTITY pluginURL "https://raw.githubusercontent.com/&github;/master/plugins/&name;.plg">
