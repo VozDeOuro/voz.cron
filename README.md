@@ -3,6 +3,9 @@
 Run and schedule your own scripts on Unraid, with run history, live logs and failure notifications.
 Built for Unraid 7.3.3 and newer (Unraid refuses to install it on older versions).
 
+> VOZ_CRON is a fork of [User Scripts](https://github.com/Squidly271/user.scripts) by Andrew Zawadzki (Squid).
+> Thanks to Squid for the original plugin that this one builds on.
+
 ## Credits
 
 - VOZ_CRON by Lucas Carvalho (VozDeOuro) — https://github.com/VozDeOuro
